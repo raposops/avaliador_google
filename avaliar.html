@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avaliação de Atendimento - Guardião 5 Estrelas</title>
+  <meta name="description" content="Deixe sua avaliação e nos ajude a melhorar nossos serviços continuamente.">
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              500: '#2563eb',
+              600: '#1d4ed8',
+              700: '#1e40af',
+            },
+            gold: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+            }
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'bounce-subtle': 'bounceSubtle 1s ease-in-out infinite',
+            'scale-check': 'scaleCheck 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+          },
+          keyframes: {
+            bounceSubtle: {
+              '0%, 100%': { transform: 'translateY(-3%)' },
+              '50%': { transform: 'translateY(0)' },
+            },
+            scaleCheck: {
+              '0%': { transform: 'scale(0) rotate(-45deg)', opacity: '0' },
+              '100%': { transform: 'scale(1) rotate(0deg)', opacity: '1' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Micro-interactions & Smooth Transitions */
+    .star-btn {
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.15s ease, filter 0.2s ease;
+    }
+    .star-btn:hover, .star-btn.active-hover {
+      transform: scale(1.18);
+      filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.6));
+    }
+    .star-btn:active {
+      transform: scale(0.92);
+    }
+    
+    .fade-step {
+      transition: opacity 0.35s ease-in-out, transform 0.35s ease-in-out;
+    }
+    .fade-step.hidden-step {
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      position: absolute;
+      width: 100%;
+      visibility: hidden;
+    }
+    .fade-step.active-step {
+      opacity: 1;
+      transform: translateY(0);
+      position: relative;
+      visibility: visible;
+    }
+
+    /* Soft Glow Background Elements */
+    .ambient-glow {
+      background: radial-gradient(circle at 50% 20%, rgba(37, 99, 235, 0.08) 0%, rgba(251, 191, 36, 0.05) 50%, transparent 80%);
+    }
+  </style>
+</head>
+
+<body class="h-full font-sans antialiased text-slate-800 bg-slate-50 flex flex-col justify-between items-center min-h-screen relative overflow-x-hidden selection:bg-brand-500 selection:text-white">
+  
+  <!-- Ambient background lighting -->
+  <div class="fixed inset-0 pointer-events-none ambient-glow z-0"></div>
+
+  <!-- Decorative background circles -->
+  <div class="fixed -top-24 -left-24 w-96 h-96 bg-brand-100/50 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="fixed -bottom-24 -right-24 w-96 h-96 bg-amber-100/40 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- Main Container -->
+  <main class="w-full max-w-md mx-auto px-4 py-8 sm:py-12 flex-1 flex flex-col justify-center relative z-10">
+    
+    <!-- CARD PRINCIPAL -->
+    <div id="main-card" class="bg-white/90 backdrop-blur-md shadow-xl sm:shadow-2xl rounded-3xl border border-slate-100 p-6 sm:p-8 relative overflow-hidden transition-all duration-300">
+      
+      <!-- Top Accent Bar -->
+      <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-400 via-brand-500 to-amber-500"></div>
+
+      <!-- ERROR STATE: Slug não encontrado -->
+      <div id="step-error" class="hidden text-center py-6">
+        <div class="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-red-100 shadow-inner">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+        </div>
+        <h2 class="text-xl font-bold text-slate-900 mb-2">Estabelecimento não encontrado</h2>
+        <p class="text-sm text-slate-500 leading-relaxed mb-6">
+          Não foi possível identificar a empresa correspondente. Por favor, escaneie novamente o QR Code no local.
+        </p>
+        <div class="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 bg-slate-100 px-3 py-1.5 rounded-full">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          Erro: Parâmetro URL ausente
+        </div>
+      </div>
+
+      <!-- STEP 1: Seleção de Estrelas -->
+      <div id="step-1" class="fade-step active-step">
+        
+        <!-- Header / Logo Genérico -->
+        <div class="text-center mb-6">
+          <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-tr from-amber-500 to-amber-300 text-white rounded-2xl shadow-lg shadow-amber-500/20 mb-4 transform hover:scale-105 transition-transform duration-300">
+            <!-- Ícone Guardião / Escudo com Estrela -->
+            <svg class="w-9 h-9 fill-current" viewBox="0 0 24 24">
+              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99l-2.63 1.38.5-2.93-2.13-2.08 2.94-.43L12 5.27l1.32 2.66 2.94.43-2.13 2.08.5 2.93L12 11.99z"/>
+            </svg>
+          </div>
+          
+          <span id="merchant-badge" class="hidden inline-block text-xs font-semibold text-brand-700 bg-brand-50 px-3 py-1 rounded-full mb-2 uppercase tracking-wider border border-brand-100">
+            <!-- Preenchido via JS se houver slug formatado -->
+          </span>
+
+          <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
+            Como foi sua experiência conosco hoje?
+          </h1>
+          <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+            Sua opinião é fundamental para melhorarmos continuamente nossos serviços.
+          </p>
+        </div>
+
+        <!-- 5 Estrelas Interativas -->
+        <div class="my-8">
+          <div class="flex items-center justify-center gap-1.5 sm:gap-2" id="star-container">
+            <!-- Star 1 -->
+            <button type="button" data-rating="1" class="star-btn p-1 text-slate-200 focus:outline-none focus:scale-110" aria-label="Avaliar com 1 estrela">
+              <svg class="w-11 h-11 sm:w-12 sm:h-12 fill-current" viewBox="0 0 24 24">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+              </svg>
+            </button>
+            <!-- Star 2 -->
+            <button type="button" data-rating="2" class="star-btn p-1 text-slate-200 focus:outline-none focus:scale-110" aria-label="Avaliar com 2 estrelas">
+              <svg class="w-11 h-11 sm:w-12 sm:h-12 fill-current" viewBox="0 0 24 24">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+              </svg>
+            </button>
+            <!-- Star 3 -->
+            <button type="button" data-rating="3" class="star-btn p-1 text-slate-200 focus:outline-none focus:scale-110" aria-label="Avaliar com 3 estrelas">
+              <svg class="w-11 h-11 sm:w-12 sm:h-12 fill-current" viewBox="0 0 24 24">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+              </svg>
+            </button>
+            <!-- Star 4 -->
+            <button type="button" data-rating="4" class="star-btn p-1 text-slate-200 focus:outline-none focus:scale-110" aria-label="Avaliar com 4 estrelas">
+              <svg class="w-11 h-11 sm:w-12 sm:h-12 fill-current" viewBox="0 0 24 24">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+              </svg>
+            </button>
+            <!-- Star 5 -->
+            <button type="button" data-rating="5" class="star-btn p-1 text-slate-200 focus:outline-none focus:scale-110" aria-label="Avaliar com 5 estrelas">
+              <svg class="w-11 h-11 sm:w-12 sm:h-12 fill-current" viewBox="0 0 24 24">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+              </svg>
+            </button>
+          </div>
+          
+          <div class="text-center mt-3">
+            <span id="rating-label" class="text-xs font-semibold text-slate-400 h-4 inline-block transition-opacity duration-200">
+              Toque nas estrelas para avaliar
+            </span>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 text-center">
+          <p class="text-xs text-slate-400 flex items-center justify-center gap-1.5">
+            <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            Sua opinião é mantida de forma segura
+          </p>
+        </div>
+      </div>
+
+      <!-- PASSO 2A: Redirecionamento Google (4 ou 5 estrelas) -->
+      <div id="step-2a" class="fade-step hidden-step text-center py-6">
+        <div class="relative w-20 h-20 mx-auto mb-6">
+          <!-- Spinner Rings -->
+          <div class="absolute inset-0 rounded-full border-4 border-amber-100"></div>
+          <div class="absolute inset-0 rounded-full border-4 border-amber-500 border-t-transparent animate-spin"></div>
+          
+          <div class="absolute inset-0 flex items-center justify-center text-amber-500">
+            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-xs font-bold mb-3 border border-amber-200">
+          <span id="selected-stars-badge">5 ★★★★★</span>
+        </div>
+
+        <h2 class="text-xl font-bold text-slate-900 mb-2">Muito obrigado!</h2>
+        <p class="text-sm text-slate-600 leading-relaxed mb-6">
+          Redirecionando você para o <strong class="text-slate-900">Google Avaliações</strong>...
+        </p>
+
+        <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mb-4">
+          <div class="bg-gradient-to-r from-amber-400 to-amber-500 h-full animate-pulse"></div>
+        </div>
+
+        <p class="text-xs text-slate-400">
+          Se o redirecionamento automático não ocorrer em alguns segundos, <a id="fallback-google-link" href="#" target="_blank" class="text-brand-600 underline font-medium">clique aqui</a>.
+        </p>
+      </div>
+
+      <!-- PASSO 2B: Formulário Interno (1, 2 ou 3 estrelas) -->
+      <div id="step-2b" class="fade-step hidden-step">
+        <div class="text-center mb-6">
+          <div class="inline-flex items-center justify-center w-12 h-12 bg-amber-50 text-amber-600 rounded-xl mb-3">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
+            </svg>
+          </div>
+          <h2 class="text-lg sm:text-xl font-bold text-slate-900 leading-snug">
+            Lamentamos por não atender totalmente suas expectativas.
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1.5 leading-relaxed">
+            Por favor, conte-nos o que houve para que nossa gerência possa resolver diretamente com você.
+          </p>
+        </div>
+
+        <form id="feedback-form" class="space-y-4" novalidate>
+          <!-- Nome -->
+          <div>
+            <label for="customer_name" class="block text-xs font-semibold text-slate-700 mb-1">
+              Seu nome <span class="text-slate-400 font-normal">(Opcional)</span>
+            </label>
+            <input 
+              type="text" 
+              id="customer_name" 
+              name="customer_name" 
+              placeholder="Ex: Maria Silva"
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all duration-200"
+            >
+          </div>
+
+          <!-- WhatsApp / Telefone -->
+          <div>
+            <label for="customer_phone" class="block text-xs font-semibold text-slate-700 mb-1">
+              WhatsApp / Telefone <span class="text-slate-400 font-normal">(Opcional)</span>
+            </label>
+            <input 
+              type="tel" 
+              id="customer_phone" 
+              name="customer_phone" 
+              placeholder="(00) 00000-0000"
+              maxlength="15"
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all duration-200"
+            >
+          </div>
+
+          <!-- Feedback textarea -->
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <label for="feedback" class="block text-xs font-semibold text-slate-700">
+                O que podemos melhorar? <span class="text-red-500">*</span>
+              </label>
+              <span id="char-counter" class="text-[10px] text-slate-400 font-medium">0/10 min</span>
+            </div>
+            <textarea 
+              id="feedback" 
+              name="feedback" 
+              rows="4" 
+              required
+              placeholder="Descreva detalhadamente o que ocorreu..."
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all duration-200 resize-none"
+            ></textarea>
+            <p id="feedback-error" class="hidden text-xs text-red-500 mt-1 font-medium flex items-center gap-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              Por favor, digite pelo menos 10 caracteres detalhando seu feedback.
+            </p>
+          </div>
+
+          <!-- Botão de Envio -->
+          <button 
+            type="submit" 
+            id="btn-submit-feedback"
+            class="w-full mt-2 py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-xl shadow-lg shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2 group cursor-pointer"
+          >
+            <span id="btn-text">Enviar Feedback à Gerência</span>
+            <svg id="btn-icon" class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+            </svg>
+            <!-- Spinner Interno (Oculto) -->
+            <svg id="btn-spinner" class="hidden w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- PASSO 3: Sucesso no Feedback Interno -->
+      <div id="step-3" class="fade-step hidden-step text-center py-4">
+        <!-- Animated Check Circle -->
+        <div class="w-20 h-20 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-5 border border-emerald-100 shadow-lg shadow-emerald-500/10 animate-scale-check">
+          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+
+        <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2">
+          Obrigado pelo seu feedback!
+        </h2>
+        
+        <p class="text-sm text-slate-600 leading-relaxed mb-6">
+          Sua mensagem foi enviada diretamente para a nossa diretoria. Faremos o possível para resolver o seu caso o mais rápido possível.
+        </p>
+
+        <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-100 text-xs text-slate-500 flex items-center justify-center gap-2">
+          <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span>Recebido com sucesso pelo sistema de Ouvidoria.</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer Security / Branding -->
+    <footer class="mt-8 text-center">
+      <div class="inline-flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+        <svg class="w-3.5 h-3.5 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+        </svg>
+        <span>Tecnologia <strong>Guardião 5 Estrelas</strong></span>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- LÓGICA JAVASCRIPT (VANILLA JS) -->
+  <script>
+    (function () {
+      'use strict';
+
+      // Constantes e Elementos DOM
+      const WEBHOOK_URL = 'https://n8n.fidustecnologia.com.br/webhook/avaliador_google';
+      
+      const stepError = document.getElementById('step-error');
+      const step1 = document.getElementById('step-1');
+      const step2a = document.getElementById('step-2a');
+      const step2b = document.getElementById('step-2b');
+      const step3 = document.getElementById('step-3');
+      const merchantBadge = document.getElementById('merchant-badge');
+      
+      const starContainer = document.getElementById('star-container');
+      const starBtns = Array.from(starContainer.querySelectorAll('.star-btn'));
+      const ratingLabel = document.getElementById('rating-label');
+      
+      const feedbackForm = document.getElementById('feedback-form');
+      const feedbackTextarea = document.getElementById('feedback');
+      const feedbackError = document.getElementById('feedback-error');
+      const charCounter = document.getElementById('char-counter');
+      const phoneInput = document.getElementById('customer_phone');
+      
+      const btnSubmit = document.getElementById('btn-submit-feedback');
+      const btnText = document.getElementById('btn-text');
+      const btnIcon = document.getElementById('btn-icon');
+      const btnSpinner = document.getElementById('btn-spinner');
+      
+      const selectedStarsBadge = document.getElementById('selected-stars-badge');
+      const fallbackGoogleLink = document.getElementById('fallback-google-link');
+
+      let currentRating = 0;
+      let urlSlug = '';
+
+      const ratingDescriptions = {
+        1: 'Muito insatisfeito 🙁',
+        2: 'Insatisfeito 😐',
+        3: 'Regular 🙂',
+        4: 'Muito bom! 😊',
+        5: 'Excelente! ⭐'
+      };
+
+      // 1. Extração do Slug da URL
+      function initSlug() {
+        const urlParams = new URLSearchParams(window.location.search);
+        urlSlug = urlParams.get('slug');
+
+        if (!urlSlug || urlSlug.trim() === '') {
+          // Exibir mensagem elegante de erro
+          step1.classList.add('hidden-step');
+          step1.classList.remove('active-step');
+          stepError.classList.remove('hidden');
+          return false;
+        }
+
+        // Formatar Badge com nome do estabelecimento baseado no slug
+        const formattedName = urlSlug
+          .replace(/[-_]/g, ' ')
+          .replace(/\b\w/g, l => l.toUpperCase());
+
+        merchantBadge.textContent = formattedName;
+        merchantBadge.classList.remove('hidden');
+        return true;
+      }
+
+      // 2. Interatividade das Estrelas (Hover & Click)
+      function setupStarInteractions() {
+        starBtns.forEach((btn, index) => {
+          const ratingValue = index + 1;
+
+          // Evento Hover (Passar o mouse / toque)
+          btn.addEventListener('mouseenter', () => highlightStars(ratingValue));
+          btn.addEventListener('mouseleave', () => highlightStars(currentRating));
+
+          // Evento Click
+          btn.addEventListener('click', () => {
+            currentRating = ratingValue;
+            highlightStars(currentRating);
+            handleRatingSelection(currentRating);
+          });
+        });
+      }
+
+      function highlightStars(rating) {
+        starBtns.forEach((btn, idx) => {
+          const starIndex = idx + 1;
+          if (starIndex <= rating) {
+            btn.classList.add('text-gold-400', 'active-hover');
+            btn.classList.remove('text-slate-200');
+          } else {
+            btn.classList.remove('text-gold-400', 'active-hover');
+            btn.classList.add('text-slate-200');
+          }
+        });
+
+        if (rating > 0) {
+          ratingLabel.textContent = ratingDescriptions[rating] || '';
+          ratingLabel.classList.add('text-amber-600', 'font-bold');
+          ratingLabel.classList.remove('text-slate-400');
+        } else {
+          ratingLabel.textContent = 'Toque nas estrelas para avaliar';
+          ratingLabel.classList.remove('text-amber-600', 'font-bold');
+          ratingLabel.classList.add('text-slate-400');
+        }
+      }
+
+      // 3. Troca de Passos (UI Transitions)
+      function switchStep(fromStep, toStep) {
+        fromStep.classList.remove('active-step');
+        fromStep.classList.add('hidden-step');
+
+        setTimeout(() => {
+          toStep.classList.remove('hidden-step');
+          toStep.classList.add('active-step');
+        }, 150);
+      }
+
+      // 4. Lógica após seleção de estrelas
+      function handleRatingSelection(rating) {
+        if (rating >= 4) {
+          // PASSO 2A: 4 ou 5 estrelas -> Redirecionar para Google Meu Negócio
+          selectedStarsBadge.textContent = `${rating} ★ (${rating === 5 ? 'Excelente' : 'Muito Bom'})`;
+          switchStep(step1, step2a);
+          sendHighRatingWebhook(rating);
+        } else {
+          // PASSO 2B: 1, 2 ou 3 estrelas -> Formulário Interno
+          switchStep(step1, step2b);
+        }
+      }
+
+      // 5. Disparo Webhook PASSO 2A (4 ou 5 estrelas)
+      async function sendHighRatingWebhook(rating) {
+        const payload = {
+          slug: urlSlug,
+          rating: rating,
+          customer_name: 'Anônimo',
+          customer_phone: '',
+          feedback: ''
+        };
+
+        let googleUrl = 'https://www.google.com';
+
+        try {
+          const response = await fetch(WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (response.ok) {
+            const data = await response.json().catch(() => ({}));
+            if (data && data.google_url) {
+              googleUrl = data.google_url;
+            }
+          }
+        } catch (error) {
+          console.warn('Alerta Webhook: Falha na requisição, aplicando URL fallback.', error);
+        }
+
+        fallbackGoogleLink.href = googleUrl;
+
+        // Redirecionamento após 1.5s para excelente UX
+        setTimeout(() => {
+          window.location.href = googleUrl;
+        }, 1500);
+      }
+
+      // 6. Máscara de Telefone / WhatsApp
+      function setupPhoneMask() {
+        phoneInput.addEventListener('input', (e) => {
+          let value = e.target.value.replace(/\D/g, '');
+          if (value.length > 11) value = value.slice(0, 11);
+
+          if (value.length > 10) {
+            // Celular (XX) XXXXX-XXXX
+            value = value.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+          } else if (value.length > 6) {
+            // Fixo ou Celular incompleto
+            value = value.replace(/^(\d{2})(\d{4,5})(\d{0,4})$/, '($1) $2-$3');
+          } else if (value.length > 2) {
+            value = value.replace(/^(\d{2})(\d{0,5})$/, '($1) $2');
+          } else if (value.length > 0) {
+            value = value.replace(/^(\d*)$/, '($1');
+          }
+
+          e.target.value = value;
+        });
+      }
+
+      // 7. Validação e Envio do Formulário Interno (PASSO 2B)
+      function setupFormValidation() {
+        feedbackTextarea.addEventListener('input', () => {
+          const length = feedbackTextarea.value.trim().length;
+          charCounter.textContent = `${length}/10 min`;
+
+          if (length >= 10) {
+            charCounter.classList.add('text-emerald-600');
+            charCounter.classList.remove('text-slate-400', 'text-red-500');
+            feedbackError.classList.add('hidden');
+          } else {
+            charCounter.classList.remove('text-emerald-600');
+            charCounter.classList.add('text-slate-400');
+          }
+        });
+
+        feedbackForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const nameVal = document.getElementById('customer_name').value.trim();
+          const phoneVal = phoneInput.value.trim();
+          const feedbackVal = feedbackTextarea.value.trim();
+
+          // Validação: Mínimo de 10 caracteres
+          if (feedbackVal.length < 10) {
+            feedbackError.classList.remove('hidden');
+            feedbackTextarea.focus();
+            return;
+          }
+
+          // Estado de Carregamento no Botão
+          setSubmitLoading(true);
+
+          const payload = {
+            slug: urlSlug,
+            rating: currentRating,
+            customer_name: nameVal || 'Anônimo',
+            customer_phone: phoneVal || '',
+            feedback: feedbackVal
+          };
+
+          try {
+            await fetch(WEBHOOK_URL, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+          } catch (error) {
+            console.error('Erro ao enviar feedback ao Webhook:', error);
+          } finally {
+            setSubmitLoading(false);
+            // Transiciona para o Passo 3 (Sucesso)
+            switchStep(step2b, step3);
+          }
+        });
+      }
+
+      function setSubmitLoading(isLoading) {
+        btnSubmit.disabled = isLoading;
+        if (isLoading) {
+          btnText.textContent = 'Enviando...';
+          btnIcon.classList.add('hidden');
+          btnSpinner.classList.remove('hidden');
+          btnSubmit.classList.add('opacity-75', 'cursor-not-allowed');
+        } else {
+          btnText.textContent = 'Enviar Feedback à Gerência';
+          btnIcon.classList.remove('hidden');
+          btnSpinner.classList.add('hidden');
+          btnSubmit.classList.remove('opacity-75', 'cursor-not-allowed');
+        }
+      }
+
+      // Inicialização Principal
+      function init() {
+        if (initSlug()) {
+          setupStarInteractions();
+          setupPhoneMask();
+          setupFormValidation();
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+</body>
+</html>

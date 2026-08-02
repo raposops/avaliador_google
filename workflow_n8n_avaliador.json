@@ -85,7 +85,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"number\": \"5511999999999\",\n  \"message\": \"🚨 ALERTA DE AVALIAÇÃO BAIXA DA EMPRESA: \" + $json.body.slug + \"\\n\\n⭐ Nota: \" + $json.body.rating + \" estrelas\\n👤 Cliente: \" + ($json.body.customer_name || 'Anônimo') + \"\\n📞 Telefone: \" + ($json.body.customer_phone || 'Não informado') + \"\\n💬 Feedback: \" + $json.body.feedback\n}",
+        "jsonBody": "={\n  \"number\": \"5511999999999\",\n  \"message\": \"🚨 ALERTA DE AVALIAÇÃO BAIXA DA EMPRESA: \" + ($json.body.slug || '') + \"\\n\\n⭐ Nota: \" + ($json.body.rating || '') + \" estrelas\\n👤 Cliente: \" + ($json.body.customer_name || 'Anônimo') + \"\\n📞 Telefone: \" + ($json.body.customer_phone || 'Não informado') + \"\\n💬 Feedback: \" + ($json.body.feedback || '')\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",

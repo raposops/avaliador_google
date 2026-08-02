@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ativação de Conta - Guardião 5 Estrelas</title>
+  <meta name="description" content="Configure sua empresa e ative o Guardião 5 Estrelas para gerar seu QR Code exclusivo.">
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+            },
+            accent: {
+              500: '#2563eb',
+              600: '#1d4ed8',
+            }
+          },
+          animation: {
+            'bounce-subtle': 'bounceSubtle 1.2s ease-in-out infinite',
+            'scale-check': 'scaleCheck 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          },
+          keyframes: {
+            bounceSubtle: {
+              '0%, 100%': { transform: 'translateY(-4%)' },
+              '50%': { transform: 'translateY(0)' },
+            },
+            scaleCheck: {
+              '0%': { transform: 'scale(0) rotate(-45deg)', opacity: '0' },
+              '100%': { transform: 'scale(1) rotate(0deg)', opacity: '1' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Micro-interactions & Smooth Transitions */
+    .fade-step {
+      transition: opacity 0.35s ease-in-out, transform 0.35s ease-in-out;
+    }
+    .fade-step.hidden-step {
+      opacity: 0;
+      transform: translateY(16px);
+      pointer-events: none;
+      position: absolute;
+      width: 100%;
+      visibility: hidden;
+    }
+    .fade-step.active-step {
+      opacity: 1;
+      transform: translateY(0);
+      position: relative;
+      visibility: visible;
+    }
+
+    /* Ambient background glow */
+    .ambient-glow {
+      background: radial-gradient(circle at 50% 15%, rgba(16, 185, 129, 0.08) 0%, rgba(37, 99, 235, 0.05) 50%, transparent 80%);
+    }
+
+    /* Tooltip / Accordion Smooth Transition */
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+      opacity: 0;
+    }
+    .accordion-content.open {
+      max-height: 180px;
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body class="h-full font-sans antialiased text-slate-800 bg-slate-50 flex flex-col justify-between items-center min-h-screen relative overflow-x-hidden selection:bg-brand-500 selection:text-white">
+
+  <!-- Ambient background lighting -->
+  <div class="fixed inset-0 pointer-events-none ambient-glow z-0"></div>
+
+  <!-- Decorative background circles -->
+  <div class="fixed -top-24 -left-24 w-96 h-96 bg-emerald-100/50 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="fixed -bottom-24 -right-24 w-96 h-96 bg-blue-100/40 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- Main Container -->
+  <main class="w-full max-w-lg mx-auto px-4 py-8 sm:py-12 flex-1 flex flex-col justify-center relative z-10">
+    
+    <!-- CARD PRINCIPAL -->
+    <div id="main-card" class="bg-white/95 backdrop-blur-md shadow-xl sm:shadow-2xl rounded-3xl border border-slate-100 p-6 sm:p-8 relative overflow-hidden transition-all duration-300">
+      
+      <!-- Top Accent Bar (Verde Sucesso) -->
+      <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-400 via-teal-500 to-accent-500"></div>
+
+      <!-- TELA 1: Formulário de Configuração Rápida -->
+      <div id="screen-1" class="fade-step active-step">
+        
+        <!-- Header de Celebração -->
+        <div class="text-center mb-6">
+          <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-tr from-emerald-500 to-teal-400 text-white rounded-2xl shadow-lg shadow-emerald-500/25 mb-4 transform hover:scale-105 transition-transform duration-300">
+            <!-- Party / Celebration Icon -->
+            <span class="text-3xl">🎉</span>
+          </div>
+
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-semibold mb-3 border border-emerald-200">
+            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            <span>Assinatura Confirmada</span>
+          </div>
+
+          <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
+            Pagamento Confirmado! Seja Bem-Vindo ao Guardião.
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
+            Falta apenas <strong class="text-slate-700">1 passo</strong> para gerarmos seu QR Code e ativarmos a proteção da sua empresa.
+          </p>
+        </div>
+
+        <!-- Banner Personalizado se houver nome vindo da URL -->
+        <div id="user-greeting-banner" class="hidden mb-6 p-3 bg-slate-50 border border-slate-200/80 rounded-2xl text-xs text-slate-600 text-center flex items-center justify-center gap-2">
+          <span>👋 Olá, <strong id="greeting-name" class="text-slate-900 font-bold">Cliente</strong>! Vamos configurar seu acesso abaixo:</span>
+        </div>
+
+        <!-- Formulário -->
+        <form id="onboarding-form" class="space-y-5" novalidate>
+          
+          <!-- Campo 1: Nome da Empresa -->
+          <div>
+            <label for="company_name" class="block text-xs font-semibold text-slate-800 mb-1.5">
+              1. Nome da sua Empresa / Estabelecimento <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m3 0h1m-1-4h.01M9 16h.01M9 12h.01M9 8h.01M15 16h.01M15 12h.01M15 8h.01"/>
+                </svg>
+              </div>
+              <input 
+                type="text" 
+                id="company_name" 
+                name="company_name" 
+                required
+                placeholder="Ex: Barbearia VIP"
+                class="w-full pl-10 pr-3.5 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200"
+              >
+            </div>
+            <p id="err-company-name" class="hidden text-xs text-red-500 mt-1 font-medium flex items-center gap-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              Por favor, informe o nome do seu estabelecimento.
+            </p>
+          </div>
+
+          <!-- Campo 2: Link de Avaliação do Google -->
+          <div>
+            <label for="google_review_url" class="block text-xs font-semibold text-slate-800 mb-1.5">
+              2. Link de Avaliação do Google Meu Negócio <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                </svg>
+              </div>
+              <input 
+                type="url" 
+                id="google_review_url" 
+                name="google_review_url" 
+                required
+                placeholder="https://g.page/r/... ou https://maps.app.goo.gl/..."
+                class="w-full pl-10 pr-3.5 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200"
+              >
+            </div>
+            <p id="err-google-url" class="hidden text-xs text-red-500 mt-1 font-medium flex items-center gap-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              Por favor, insira um link válido do Google (ex: https://...).
+            </p>
+
+            <!-- Dica Expansível Helper -->
+            <div class="mt-2.5">
+              <button 
+                type="button" 
+                id="toggle-help-btn"
+                class="text-xs font-semibold text-emerald-700 hover:text-emerald-800 flex items-center gap-1.5 transition-colors focus:outline-none"
+              >
+                <span>💡 Não sabe como pegar seu link do Google?</span>
+                <svg id="help-arrow" class="w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+
+              <div id="help-content" class="accordion-content mt-2">
+                <div class="p-3 bg-amber-50/80 border border-amber-200/80 rounded-xl text-xs text-amber-900 leading-relaxed space-y-1.5">
+                  <p class="font-semibold text-amber-900 flex items-center gap-1">
+                    <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Passo a passo rápido:
+                  </p>
+                  <ol class="list-decimal list-inside space-y-1 pl-1 text-slate-700">
+                    <li>Abra o <strong>Google Maps</strong> ou o perfil da sua empresa no Google.</li>
+                    <li>Clique no botão <strong>"Solicitar avaliações"</strong> ou <strong>"Compartilhar"</strong>.</li>
+                    <li>Copie o link gerado e cole no campo acima.</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Botão de Ação -->
+          <button 
+            type="submit" 
+            id="btn-submit"
+            class="w-full mt-4 py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-sm sm:text-base font-bold rounded-xl shadow-lg shadow-emerald-600/25 hover:shadow-emerald-600/35 active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2 group cursor-pointer"
+          >
+            <span id="btn-text">Ativar Proteção e Gerar Meu QR Code 🚀</span>
+            <svg id="btn-spinner" class="hidden w-5 h-5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </button>
+
+        </form>
+
+        <div class="mt-6 pt-4 border-t border-slate-100 text-center">
+          <p class="text-xs text-slate-400 flex items-center justify-center gap-1.5">
+            <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            Seus dados estão protegidos por criptografia ponta a ponta
+          </p>
+        </div>
+
+      </div>
+
+      <!-- TELA 2: Sucesso e Orientações -->
+      <div id="screen-2" class="fade-step hidden-step text-center py-4">
+        
+        <!-- Animated Check Circle -->
+        <div class="w-20 h-20 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-5 border border-emerald-100 shadow-xl shadow-emerald-500/15 animate-scale-check">
+          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+
+        <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2">
+          Tudo Pronto! Sua Conta Foi Ativada!
+        </h2>
+        
+        <p id="success-msg" class="text-sm text-slate-600 leading-relaxed mb-6">
+          Seu QR Code oficial foi gerado e enviado agora mesmo para o seu WhatsApp (<strong id="target-phone" class="text-slate-900">cadastrado</strong>). Verifique seu aplicativo!
+        </p>
+
+        <!-- Status Card -->
+        <div class="p-4 bg-emerald-50/80 rounded-2xl border border-emerald-200/80 text-xs text-emerald-900 text-left space-y-2 mb-6">
+          <div class="flex items-center gap-2 font-semibold">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            <span>Resumo da Configuração:</span>
+          </div>
+          <ul class="space-y-1 text-slate-700 pl-4 list-disc">
+            <li>Empresa: <strong id="summary-company" class="text-slate-900">---</strong></li>
+            <li>Status: <span class="text-emerald-700 font-semibold">QR Code Gerado & Ativo</span></li>
+          </ul>
+        </div>
+
+        <!-- Botões de Ação Auxiliar -->
+        <div class="space-y-3">
+          <a 
+            id="whatsapp-btn"
+            href="https://wa.me/"
+            target="_blank"
+            class="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-xl shadow-lg shadow-emerald-600/25 hover:shadow-emerald-600/35 transition-all duration-200 flex items-center justify-center gap-2 group"
+          >
+            <!-- WhatsApp Icon -->
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+            </svg>
+            <span>Abrir WhatsApp Agora</span>
+          </a>
+
+          <p class="text-xs text-slate-400">
+            Dúvidas ou suporte? Nossa equipe de atendimento está disponível no WhatsApp.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Footer Security / Branding -->
+    <footer class="mt-8 text-center">
+      <div class="inline-flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+        <svg class="w-3.5 h-3.5 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+        </svg>
+        <span>Tecnologia <strong>Guardião 5 Estrelas</strong></span>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- LÓGICA JAVASCRIPT (VANILLA JS) -->
+  <script>
+    (function () {
+      'use strict';
+
+      // Endpoint do Webhook no n8n
+      const WEBHOOK_URL = 'https://n8n.fidustecnologia.com.br/webhook/guardiao-setup';
+
+      // Elementos DOM
+      const screen1 = document.getElementById('screen-1');
+      const screen2 = document.getElementById('screen-2');
+      const onboardingForm = document.getElementById('onboarding-form');
+      
+      const companyInput = document.getElementById('company_name');
+      const googleUrlInput = document.getElementById('google_review_url');
+      const errCompanyName = document.getElementById('err-company-name');
+      const errGoogleUrl = document.getElementById('err-google-url');
+
+      const btnSubmit = document.getElementById('btn-submit');
+      const btnText = document.getElementById('btn-text');
+      const btnSpinner = document.getElementById('btn-spinner');
+
+      const userGreetingBanner = document.getElementById('user-greeting-banner');
+      const greetingName = document.getElementById('greeting-name');
+      
+      const toggleHelpBtn = document.getElementById('toggle-help-btn');
+      const helpContent = document.getElementById('help-content');
+      const helpArrow = document.getElementById('help-arrow');
+
+      const targetPhoneElem = document.getElementById('target-phone');
+      const summaryCompany = document.getElementById('summary-company');
+      const whatsappBtn = document.getElementById('whatsapp-btn');
+
+      // Dados capturados da Query String da Kiwify
+      let urlData = {
+        name: '',
+        phone: '',
+        email: ''
+      };
+
+      // 1. Leitura e armazenamento dos parâmetros da URL
+      function parseQueryParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        urlData.name = (urlParams.get('name') || urlParams.get('customer_name') || '').trim();
+        urlData.phone = (urlParams.get('phone') || urlParams.get('customer_phone') || '').trim();
+        urlData.email = (urlParams.get('email') || urlParams.get('customer_email') || '').trim();
+
+        // Exibe saudação personalizada se houver nome
+        if (urlData.name) {
+          greetingName.textContent = decodeURIComponent(urlData.name);
+          userGreetingBanner.classList.remove('hidden');
+        }
+      }
+
+      // 2. Formatação visual do telefone para o texto de confirmação
+      function formatPhone(rawPhone) {
+        if (!rawPhone) return 'cadastrado';
+        let cleaned = rawPhone.replace(/\D/g, '');
+        if (cleaned.length === 11) {
+          return cleaned.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+        } else if (cleaned.length === 10) {
+          return cleaned.replace(/^(\d{2})(\d{4})(\d{4})$/, '($1) $2-$3');
+        }
+        return rawPhone;
+      }
+
+      // 3. Dica Expansível Accordion
+      function setupAccordion() {
+        toggleHelpBtn.addEventListener('click', () => {
+          const isOpen = helpContent.classList.contains('open');
+          if (isOpen) {
+            helpContent.classList.remove('open');
+            helpArrow.style.transform = 'rotate(0deg)';
+          } else {
+            helpContent.classList.add('open');
+            helpArrow.style.transform = 'rotate(180deg)';
+          }
+        });
+      }
+
+      // 4. Troca de telas (UI Transition)
+      function switchScreen(fromScreen, toScreen) {
+        fromScreen.classList.remove('active-step');
+        fromScreen.classList.add('hidden-step');
+
+        setTimeout(() => {
+          toScreen.classList.remove('hidden-step');
+          toScreen.classList.add('active-step');
+        }, 150);
+      }
+
+      // 5. Validação e Envio do Formulário
+      function setupFormSubmission() {
+        companyInput.addEventListener('input', () => {
+          if (companyInput.value.trim().length > 0) {
+            errCompanyName.classList.add('hidden');
+          }
+        });
+
+        googleUrlInput.addEventListener('input', () => {
+          if (googleUrlInput.value.trim().length > 0) {
+            errGoogleUrl.classList.add('hidden');
+          }
+        });
+
+        onboardingForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const companyName = companyInput.value.trim();
+          const googleUrl = googleUrlInput.value.trim();
+
+          let isValid = true;
+
+          if (!companyName) {
+            errCompanyName.classList.remove('hidden');
+            companyInput.focus();
+            isValid = false;
+          }
+
+          if (!googleUrl || (!googleUrl.startsWith('http://') && !googleUrl.startsWith('https://'))) {
+            errGoogleUrl.classList.remove('hidden');
+            if (isValid) googleUrlInput.focus();
+            isValid = false;
+          }
+
+          if (!isValid) return;
+
+          // Ativar Estado de Loading
+          setLoading(true);
+
+          // Estrutura do Payload JSON
+          const payload = {
+            customer_name: urlData.name,
+            customer_phone: urlData.phone,
+            customer_email: urlData.email,
+            company_name: companyName,
+            google_review_url: googleUrl
+          };
+
+          try {
+            await fetch(WEBHOOK_URL, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+          } catch (error) {
+            console.error('Erro no envio ao Webhook:', error);
+          } finally {
+            setLoading(false);
+            
+            // Atualizar Tela 2 com dados formatados
+            summaryCompany.textContent = companyName;
+            const formattedPhone = formatPhone(urlData.phone);
+            targetPhoneElem.textContent = formattedPhone;
+
+            if (urlData.phone) {
+              const cleanDigits = urlData.phone.replace(/\D/g, '');
+              whatsappBtn.href = `https://wa.me/${cleanDigits.startsWith('55') ? cleanDigits : '55' + cleanDigits}`;
+            } else {
+              whatsappBtn.href = 'https://wa.me/';
+            }
+
+            switchScreen(screen1, screen2);
+          }
+        });
+      }
+
+      function setLoading(isLoading) {
+        btnSubmit.disabled = isLoading;
+        if (isLoading) {
+          btnText.textContent = 'Ativando Conta e Gerando QR Code...';
+          btnSpinner.classList.remove('hidden');
+          btnSubmit.classList.add('opacity-75', 'cursor-not-allowed');
+        } else {
+          btnText.textContent = 'Ativar Proteção e Gerar Meu QR Code 🚀';
+          btnSpinner.classList.add('hidden');
+          btnSubmit.classList.remove('opacity-75', 'cursor-not-allowed');
+        }
+      }
+
+      // Inicialização
+      function init() {
+        parseQueryParams();
+        setupAccordion();
+        setupFormSubmission();
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+</body>
+</html>

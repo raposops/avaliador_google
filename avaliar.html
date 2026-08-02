@@ -129,8 +129,8 @@
         </div>
       </div>
 
-      <!-- STEP 1: Seleção de Estrelas -->
-      <div id="step-1" class="fade-step active-step">
+      <!-- STEP 1: Seleção de Estrelas (evaluation-step / step-1) -->
+      <div id="evaluation-step" class="fade-step active-step">
         
         <!-- Header / Logo Genérico -->
         <div class="text-center mb-6">
@@ -206,7 +206,7 @@
       </div>
 
       <!-- PASSO 2A: Redirecionamento Google (4 ou 5 estrelas) -->
-      <div id="step-2a" class="fade-step hidden-step text-center py-6">
+      <div id="step-2a" class="fade-step hidden hidden-step text-center py-6">
         <div class="relative w-20 h-20 mx-auto mb-6">
           <!-- Spinner Rings -->
           <div class="absolute inset-0 rounded-full border-4 border-amber-100"></div>
@@ -238,7 +238,7 @@
       </div>
 
       <!-- PASSO 2B: Formulário Interno (1, 2 ou 3 estrelas) -->
-      <div id="step-2b" class="fade-step hidden-step">
+      <div id="step-2b" class="fade-step hidden hidden-step">
         <div class="text-center mb-6">
           <div class="inline-flex items-center justify-center w-12 h-12 bg-amber-50 text-amber-600 rounded-xl mb-3">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -326,8 +326,8 @@
         </form>
       </div>
 
-      <!-- PASSO 3: Sucesso no Feedback Interno -->
-      <div id="step-3" class="fade-step hidden-step text-center py-4">
+      <!-- PASSO 3: Sucesso no Feedback Interno (thank-you-step / step-3) -->
+      <div id="thank-you-step" class="fade-step hidden hidden-step text-center py-4">
         <!-- Animated Check Circle -->
         <div class="w-20 h-20 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-5 border border-emerald-100 shadow-lg shadow-emerald-500/10 animate-scale-check">
           <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -367,278 +367,216 @@
 
   <!-- LÓGICA JAVASCRIPT (VANILLA JS) -->
   <script>
-    (function () {
-      'use strict';
+    // 1. Captura o slug presente na URL (?slug=sua-empresa)
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentSlug = urlParams.get('slug');
 
-      // Constantes e Elementos DOM
-      const WEBHOOK_URL = 'https://n8n.fidustecnologia.com.br/webhook/avaliador_google';
-      
-      const stepError = document.getElementById('step-error');
-      const step1 = document.getElementById('step-1');
-      const step2a = document.getElementById('step-2a');
-      const step2b = document.getElementById('step-2b');
-      const step3 = document.getElementById('step-3');
-      const merchantBadge = document.getElementById('merchant-badge');
-      
-      const starContainer = document.getElementById('star-container');
-      const starBtns = Array.from(starContainer.querySelectorAll('.star-btn'));
-      const ratingLabel = document.getElementById('rating-label');
-      
-      const feedbackForm = document.getElementById('feedback-form');
-      const feedbackTextarea = document.getElementById('feedback');
-      const feedbackError = document.getElementById('feedback-error');
-      const charCounter = document.getElementById('char-counter');
-      const phoneInput = document.getElementById('customer_phone');
-      
-      const btnSubmit = document.getElementById('btn-submit-feedback');
-      const btnText = document.getElementById('btn-text');
-      const btnIcon = document.getElementById('btn-icon');
-      const btnSpinner = document.getElementById('btn-spinner');
-      
-      const selectedStarsBadge = document.getElementById('selected-stars-badge');
-      const fallbackGoogleLink = document.getElementById('fallback-google-link');
+    const stepError = document.getElementById('step-error');
+    const evaluationStep = document.getElementById('evaluation-step');
+    const step2a = document.getElementById('step-2a');
+    const step2b = document.getElementById('step-2b');
+    const thankYouStep = document.getElementById('thank-you-step');
+    const merchantBadge = document.getElementById('merchant-badge');
 
-      let currentRating = 0;
-      let urlSlug = '';
+    const starContainer = document.getElementById('star-container');
+    const starBtns = Array.from(starContainer.querySelectorAll('.star-btn'));
+    const ratingLabel = document.getElementById('rating-label');
 
-      const ratingDescriptions = {
-        1: 'Muito insatisfeito 🙁',
-        2: 'Insatisfeito 😐',
-        3: 'Regular 🙂',
-        4: 'Muito bom! 😊',
-        5: 'Excelente! ⭐'
-      };
+    const feedbackForm = document.getElementById('feedback-form');
+    const feedbackTextarea = document.getElementById('feedback');
+    const feedbackError = document.getElementById('feedback-error');
+    const charCounter = document.getElementById('char-counter');
+    const phoneInput = document.getElementById('customer_phone');
 
-      // 1. Extração do Slug da URL
-      function initSlug() {
-        const urlParams = new URLSearchParams(window.location.search);
-        urlSlug = urlParams.get('slug');
+    const btnSubmit = document.getElementById('btn-submit-feedback');
+    const btnText = document.getElementById('btn-text');
+    const btnIcon = document.getElementById('btn-icon');
+    const btnSpinner = document.getElementById('btn-spinner');
 
-        if (!urlSlug || urlSlug.trim() === '') {
-          // Exibir mensagem elegante de erro
-          step1.classList.add('hidden-step');
-          step1.classList.remove('active-step');
-          stepError.classList.remove('hidden');
-          return false;
-        }
+    const selectedStarsBadge = document.getElementById('selected-stars-badge');
+    const fallbackGoogleLink = document.getElementById('fallback-google-link');
 
-        // Formatar Badge com nome do estabelecimento baseado no slug
-        const formattedName = urlSlug
-          .replace(/[-_]/g, ' ')
-          .replace(/\b\w/g, l => l.toUpperCase());
+    let currentRating = 0;
 
+    const ratingDescriptions = {
+      1: 'Muito insatisfeito 🙁',
+      2: 'Insatisfeito 😐',
+      3: 'Regular 🙂',
+      4: 'Muito bom! 😊',
+      5: 'Excelente! ⭐'
+    };
+
+    // Validação do Slug da URL
+    if (!currentSlug || currentSlug.trim() === '') {
+      if (evaluationStep) evaluationStep.classList.add('hidden');
+      if (stepError) stepError.classList.remove('hidden');
+    } else {
+      const formattedName = currentSlug
+        .replace(/[-_]/g, ' ')
+        .replace(/\b\w/g, l => l.toUpperCase());
+
+      if (merchantBadge) {
         merchantBadge.textContent = formattedName;
         merchantBadge.classList.remove('hidden');
-        return true;
       }
+    }
 
-      // 2. Interatividade das Estrelas (Hover & Click)
-      function setupStarInteractions() {
-        starBtns.forEach((btn, index) => {
-          const ratingValue = index + 1;
+    // Interatividade das Estrelas
+    starBtns.forEach((btn, index) => {
+      const ratingValue = index + 1;
+      btn.addEventListener('mouseenter', () => highlightStars(ratingValue));
+      btn.addEventListener('mouseleave', () => highlightStars(currentRating));
+      btn.addEventListener('click', () => {
+        currentRating = ratingValue;
+        highlightStars(currentRating);
+        handleRatingSelection(currentRating);
+      });
+    });
 
-          // Evento Hover (Passar o mouse / toque)
-          btn.addEventListener('mouseenter', () => highlightStars(ratingValue));
-          btn.addEventListener('mouseleave', () => highlightStars(currentRating));
-
-          // Evento Click
-          btn.addEventListener('click', () => {
-            currentRating = ratingValue;
-            highlightStars(currentRating);
-            handleRatingSelection(currentRating);
-          });
-        });
-      }
-
-      function highlightStars(rating) {
-        starBtns.forEach((btn, idx) => {
-          const starIndex = idx + 1;
-          if (starIndex <= rating) {
-            btn.classList.add('text-gold-400', 'active-hover');
-            btn.classList.remove('text-slate-200');
-          } else {
-            btn.classList.remove('text-gold-400', 'active-hover');
-            btn.classList.add('text-slate-200');
-          }
-        });
-
-        if (rating > 0) {
-          ratingLabel.textContent = ratingDescriptions[rating] || '';
-          ratingLabel.classList.add('text-amber-600', 'font-bold');
-          ratingLabel.classList.remove('text-slate-400');
+    function highlightStars(rating) {
+      starBtns.forEach((btn, idx) => {
+        const starIndex = idx + 1;
+        if (starIndex <= rating) {
+          btn.classList.add('text-gold-400', 'active-hover');
+          btn.classList.remove('text-slate-200');
         } else {
-          ratingLabel.textContent = 'Toque nas estrelas para avaliar';
-          ratingLabel.classList.remove('text-amber-600', 'font-bold');
-          ratingLabel.classList.add('text-slate-400');
+          btn.classList.remove('text-gold-400', 'active-hover');
+          btn.classList.add('text-slate-200');
         }
+      });
+
+      if (rating > 0 && ratingLabel) {
+        ratingLabel.textContent = ratingDescriptions[rating] || '';
+        ratingLabel.classList.add('text-amber-600', 'font-bold');
+        ratingLabel.classList.remove('text-slate-400');
+      } else if (ratingLabel) {
+        ratingLabel.textContent = 'Toque nas estrelas para avaliar';
+        ratingLabel.classList.remove('text-amber-600', 'font-bold');
+        ratingLabel.classList.add('text-slate-400');
       }
+    }
 
-      // 3. Troca de Passos (UI Transitions)
-      function switchStep(fromStep, toStep) {
-        fromStep.classList.remove('active-step');
-        fromStep.classList.add('hidden-step');
-
-        setTimeout(() => {
-          toStep.classList.remove('hidden-step');
-          toStep.classList.add('active-step');
-        }, 150);
-      }
-
-      // 4. Lógica após seleção de estrelas
-      function handleRatingSelection(rating) {
-        if (rating >= 4) {
-          // PASSO 2A: 4 ou 5 estrelas -> Redirecionar para Google Meu Negócio
+    function handleRatingSelection(rating) {
+      if (rating >= 4) {
+        if (selectedStarsBadge) {
           selectedStarsBadge.textContent = `${rating} ★ (${rating === 5 ? 'Excelente' : 'Muito Bom'})`;
-          switchStep(step1, step2a);
-          sendHighRatingWebhook(rating);
+        }
+        if (evaluationStep) evaluationStep.classList.add('hidden');
+        if (step2a) step2a.classList.remove('hidden', 'hidden-step');
+        enviarAvaliacao(rating);
+      } else {
+        if (evaluationStep) evaluationStep.classList.add('hidden');
+        if (step2b) step2b.classList.remove('hidden', 'hidden-step');
+      }
+    }
+
+    // Máscara de Telefone
+    if (phoneInput) {
+      phoneInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 11) value = value.slice(0, 11);
+
+        if (value.length > 10) {
+          value = value.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+        } else if (value.length > 6) {
+          value = value.replace(/^(\d{2})(\d{4,5})(\d{0,4})$/, '($1) $2-$3');
+        } else if (value.length > 2) {
+          value = value.replace(/^(\d{2})(\d{0,5})$/, '($1) $2');
+        } else if (value.length > 0) {
+          value = value.replace(/^(\d*)$/, '($1');
+        }
+
+        e.target.value = value;
+      });
+    }
+
+    // Validação do Formulário Interno (1 a 3 estrelas)
+    if (feedbackTextarea) {
+      feedbackTextarea.addEventListener('input', () => {
+        const length = feedbackTextarea.value.trim().length;
+        if (charCounter) charCounter.textContent = `${length}/10 min`;
+
+        if (length >= 10 && charCounter && feedbackError) {
+          charCounter.classList.add('text-emerald-600');
+          charCounter.classList.remove('text-slate-400', 'text-red-500');
+          feedbackError.classList.add('hidden');
+        } else if (charCounter) {
+          charCounter.classList.remove('text-emerald-600');
+          charCounter.classList.add('text-slate-400');
+        }
+      });
+    }
+
+    if (feedbackForm) {
+      feedbackForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const nameVal = document.getElementById('customer_name').value.trim();
+        const phoneVal = phoneInput ? phoneInput.value.trim() : '';
+        const feedbackVal = feedbackTextarea ? feedbackTextarea.value.trim() : '';
+
+        if (feedbackVal.length < 10) {
+          if (feedbackError) feedbackError.classList.remove('hidden');
+          if (feedbackTextarea) feedbackTextarea.focus();
+          return;
+        }
+
+        enviarAvaliacao(currentRating, nameVal, phoneVal, feedbackVal);
+      });
+    }
+
+    // 2. Função de envio acionada ao confirmar a avaliação
+    async function enviarAvaliacao(ratingValue, customerName = '', customerPhone = '', feedbackText = '') {
+      
+      if (!currentSlug) {
+        alert("Erro: Empresa não identificada na URL.");
+        return;
+      }
+
+      if (btnSubmit) btnSubmit.disabled = true;
+
+      // Monta o payload exatamente como o n8n espera
+      const payload = {
+        slug: currentSlug,
+        rating: Number(ratingValue),
+        customer_name: customerName,
+        customer_phone: customerPhone,
+        feedback: feedbackText
+      };
+
+      try {
+        const response = await fetch('https://n8n.fidustecnologia.com.br/webhook/avaliador', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        // Redireciona para o Google se a nota for 4 ou 5
+        if (data.action === 'redirect_google' && data.google_url) {
+          if (fallbackGoogleLink) fallbackGoogleLink.href = data.google_url;
+          window.location.href = data.google_url;
+        } else if (Number(ratingValue) >= 4 && data.google_url) {
+          if (fallbackGoogleLink) fallbackGoogleLink.href = data.google_url;
+          window.location.href = data.google_url;
         } else {
-          // PASSO 2B: 1, 2 ou 3 estrelas -> Formulário Interno
-          switchStep(step1, step2b);
-        }
-      }
-
-      // 5. Disparo Webhook PASSO 2A (4 ou 5 estrelas)
-      async function sendHighRatingWebhook(rating) {
-        const payload = {
-          slug: urlSlug,
-          rating: rating,
-          customer_name: 'Anônimo',
-          customer_phone: '',
-          feedback: ''
-        };
-
-        let googleUrl = 'https://www.google.com';
-
-        try {
-          const response = await fetch(WEBHOOK_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-
-          if (response.ok) {
-            const data = await response.json().catch(() => ({}));
-            if (data && data.google_url) {
-              googleUrl = data.google_url;
-            }
-          }
-        } catch (error) {
-          console.warn('Alerta Webhook: Falha na requisição, aplicando URL fallback.', error);
+          // Exibe a tela de agradecimento caso seja nota baixa (1 a 3)
+          if (evaluationStep) evaluationStep.classList.add('hidden');
+          if (step2b) step2b.classList.add('hidden');
+          if (step2a) step2a.classList.add('hidden');
+          if (thankYouStep) thankYouStep.classList.remove('hidden', 'hidden-step');
         }
 
-        fallbackGoogleLink.href = googleUrl;
-
-        // Redirecionamento após 1.5s para excelente UX
-        setTimeout(() => {
-          window.location.href = googleUrl;
-        }, 1500);
+      } catch (error) {
+        console.error("Erro ao conectar com o servidor:", error);
+        alert("Ocorreu um erro ao enviar sua avaliação. Tente novamente.");
+        if (btnSubmit) btnSubmit.disabled = false;
       }
-
-      // 6. Máscara de Telefone / WhatsApp
-      function setupPhoneMask() {
-        phoneInput.addEventListener('input', (e) => {
-          let value = e.target.value.replace(/\D/g, '');
-          if (value.length > 11) value = value.slice(0, 11);
-
-          if (value.length > 10) {
-            // Celular (XX) XXXXX-XXXX
-            value = value.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
-          } else if (value.length > 6) {
-            // Fixo ou Celular incompleto
-            value = value.replace(/^(\d{2})(\d{4,5})(\d{0,4})$/, '($1) $2-$3');
-          } else if (value.length > 2) {
-            value = value.replace(/^(\d{2})(\d{0,5})$/, '($1) $2');
-          } else if (value.length > 0) {
-            value = value.replace(/^(\d*)$/, '($1');
-          }
-
-          e.target.value = value;
-        });
-      }
-
-      // 7. Validação e Envio do Formulário Interno (PASSO 2B)
-      function setupFormValidation() {
-        feedbackTextarea.addEventListener('input', () => {
-          const length = feedbackTextarea.value.trim().length;
-          charCounter.textContent = `${length}/10 min`;
-
-          if (length >= 10) {
-            charCounter.classList.add('text-emerald-600');
-            charCounter.classList.remove('text-slate-400', 'text-red-500');
-            feedbackError.classList.add('hidden');
-          } else {
-            charCounter.classList.remove('text-emerald-600');
-            charCounter.classList.add('text-slate-400');
-          }
-        });
-
-        feedbackForm.addEventListener('submit', async (e) => {
-          e.preventDefault();
-
-          const nameVal = document.getElementById('customer_name').value.trim();
-          const phoneVal = phoneInput.value.trim();
-          const feedbackVal = feedbackTextarea.value.trim();
-
-          // Validação: Mínimo de 10 caracteres
-          if (feedbackVal.length < 10) {
-            feedbackError.classList.remove('hidden');
-            feedbackTextarea.focus();
-            return;
-          }
-
-          // Estado de Carregamento no Botão
-          setSubmitLoading(true);
-
-          const payload = {
-            slug: urlSlug,
-            rating: currentRating,
-            customer_name: nameVal || 'Anônimo',
-            customer_phone: phoneVal || '',
-            feedback: feedbackVal
-          };
-
-          try {
-            await fetch(WEBHOOK_URL, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-            });
-          } catch (error) {
-            console.error('Erro ao enviar feedback ao Webhook:', error);
-          } finally {
-            setSubmitLoading(false);
-            // Transiciona para o Passo 3 (Sucesso)
-            switchStep(step2b, step3);
-          }
-        });
-      }
-
-      function setSubmitLoading(isLoading) {
-        btnSubmit.disabled = isLoading;
-        if (isLoading) {
-          btnText.textContent = 'Enviando...';
-          btnIcon.classList.add('hidden');
-          btnSpinner.classList.remove('hidden');
-          btnSubmit.classList.add('opacity-75', 'cursor-not-allowed');
-        } else {
-          btnText.textContent = 'Enviar Feedback à Gerência';
-          btnIcon.classList.remove('hidden');
-          btnSpinner.classList.add('hidden');
-          btnSubmit.classList.remove('opacity-75', 'cursor-not-allowed');
-        }
-      }
-
-      // Inicialização Principal
-      function init() {
-        if (initSlug()) {
-          setupStarInteractions();
-          setupPhoneMask();
-          setupFormValidation();
-        }
-      }
-
-      document.addEventListener('DOMContentLoaded', init);
-    })();
+    }
   </script>
 </body>
 </html>

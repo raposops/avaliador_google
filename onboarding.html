@@ -230,6 +230,28 @@
 
           </div>
 
+          <!-- Campo 3: Telefone (Fallback se a Kiwify não enviar) -->
+          <div id="phone-field-container" class="hidden">
+            <label for="fallback_phone" class="block text-xs font-semibold text-slate-800 mb-1.5">
+              3. Seu WhatsApp (Com DDD) <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                </svg>
+              </div>
+              <input 
+                type="tel" 
+                id="fallback_phone" 
+                name="fallback_phone"
+                placeholder="Ex: 51999998888"
+                class="w-full pl-10 pr-3.5 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200"
+              >
+            </div>
+            <p class="text-xs text-slate-500 mt-1">É neste número que o sistema enviará alertas de avaliações negativas.</p>
+          </div>
+
           <!-- Botão de Ação -->
           <button 
             type="submit" 
@@ -326,6 +348,14 @@
     const customerPhone = urlParams.get('phone') || urlParams.get('customer_phone') || urlParams.get('mobile') || '';
     const customerEmail = urlParams.get('email') || urlParams.get('customer_email') || '';
 
+    // Mostra o campo de telefone se a Kiwify não enviar na URL
+    const phoneContainer = document.getElementById('phone-field-container');
+    const fallbackPhoneInput = document.getElementById('fallback_phone');
+    if (!customerPhone && phoneContainer) {
+      phoneContainer.classList.remove('hidden');
+      fallbackPhoneInput.required = true;
+    }
+
     // Exibe saudação personalizada se houver nome vindo da URL
     if (customerName) {
       const userGreetingBanner = document.getElementById('user-greeting-banner');
@@ -364,11 +394,18 @@
 
       const companyName = document.getElementById('company_name').value;
       const googleUrl = document.getElementById('google_review_url').value;
+      const finalPhone = customerPhone || document.getElementById('fallback_phone').value;
+
+      // Adiciona 55 automaticamente se o usuário não digitar
+      let cleanFinalPhone = finalPhone.replace(/\D/g, '');
+      if (cleanFinalPhone.length >= 10 && !cleanFinalPhone.startsWith('55')) {
+        cleanFinalPhone = '55' + cleanFinalPhone;
+      }
 
       // Estrutura o payload JSON exatamente no formato esperado
       const payload = {
         customer_name: customerName,
-        customer_phone: customerPhone,
+        customer_phone: cleanFinalPhone,
         customer_email: customerEmail,
         company_name: companyName,
         google_review_url: googleUrl
@@ -391,11 +428,10 @@
           const whatsappBtn = document.getElementById('whatsapp-btn');
 
           if (summaryCompany) summaryCompany.textContent = companyName || '---';
-          if (targetPhone) targetPhone.textContent = customerPhone || 'cadastrado';
+          if (targetPhone) targetPhone.textContent = cleanFinalPhone || 'cadastrado';
 
-          if (whatsappBtn && customerPhone) {
-            const cleanDigits = customerPhone.replace(/\D/g, '');
-            whatsappBtn.href = `https://wa.me/${cleanDigits.startsWith('55') ? cleanDigits : '55' + cleanDigits}`;
+          if (whatsappBtn && cleanFinalPhone) {
+            whatsappBtn.href = `https://wa.me/${cleanFinalPhone}`;
           }
 
           // Exibe a tela de sucesso

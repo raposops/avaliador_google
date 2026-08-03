@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guardião 5 Estrelas — Proteja sua Reputação no Google</title>
+  <meta name="description" content="Transforme avaliações negativas em alertas privados e direcione clientes satisfeitos direto para o Google. Proteja sua reputação por apenas R$29,99/mês.">
+  <meta property="og:title" content="Guardião 5 Estrelas — Proteja sua Reputação no Google">
+  <meta property="og:description" content="Filtro inteligente de avaliações: clientes felizes vão para o Google, críticas vão direto para você. Nunca mais seja pego de surpresa.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue-500: #2563eb; --blue-600: #1d4ed8; --blue-700: #1e40af;
+      --gold-400: #fbbf24; --gold-500: #f59e0b; --gold-600: #d97706;
+      --slate-50: #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1; --slate-400: #94a3b8; --slate-500: #64748b;
+      --slate-600: #475569; --slate-700: #334155; --slate-800: #1e293b;
+      --slate-900: #0f172a; --white: #ffffff; --radius: 14px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--slate-900); color: var(--white); line-height: 1.6; overflow-x: hidden; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 96px 0; }
+    .tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(37, 99, 235, 0.15); border: 1px solid rgba(37, 99, 235, 0.35);
+      color: #93c5fd; font-size: 13px; font-weight: 600; letter-spacing: 0.05em;
+      text-transform: uppercase; padding: 6px 14px; border-radius: 100px; margin-bottom: 20px;
+    }
+    .section-title { font-size: clamp(32px, 5vw, 48px); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; }
+    .section-sub { font-size: 18px; color: var(--slate-300); margin-top: 16px; max-width: 560px; }
+    .text-gold { color: var(--gold-400); }
+    .text-blue { color: #60a5fa; }
+    .text-center { text-align: center; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+
+    /* BUTTONS */
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      background: linear-gradient(135deg, var(--gold-500), var(--gold-400));
+      color: var(--slate-900); font-weight: 800; font-size: 17px;
+      padding: 18px 36px; border-radius: 100px; border: none; cursor: pointer;
+      text-decoration: none; transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 4px 24px rgba(245, 158, 11, 0.4); white-space: nowrap;
+    }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 12px 36px rgba(245, 158, 11, 0.5), 0 0 0 6px rgba(245, 158, 11, 0.12); }
+    .btn-primary:active { transform: scale(0.97); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1.5px solid rgba(255,255,255,0.25); color: var(--white);
+      font-weight: 600; font-size: 15px; padding: 14px 28px; border-radius: 100px;
+      cursor: pointer; text-decoration: none; transition: all 0.2s ease;
+      background: rgba(255,255,255,0.05);
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.1); }
+
+    /* NAVBAR */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 24px; transition: background 0.3s ease, box-shadow 0.3s ease; }
+    nav.scrolled { background: rgba(15, 23, 42, 0.92); backdrop-filter: blur(20px); box-shadow: 0 1px 0 rgba(255,255,255,0.07); }
+    .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 800; text-decoration: none; color: var(--white); }
+    .nav-logo .logo-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--blue-500), var(--blue-700)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a { color: var(--slate-300); text-decoration: none; font-size: 15px; font-weight: 500; transition: color 0.2s ease; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta { background: linear-gradient(135deg, var(--gold-500), var(--gold-400)) !important; color: var(--slate-900) !important; font-weight: 700 !important; padding: 10px 22px; border-radius: 100px; }
+    .nav-cta:hover { transform: scale(1.04); box-shadow: 0 4px 16px rgba(245,158,11,0.4); }
+
+    /* HERO */
+    #hero { min-height: 100vh; display: flex; align-items: center; padding-top: 72px; position: relative; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(37, 99, 235, 0.25) 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 80% 60%, rgba(251, 191, 36, 0.08) 0%, transparent 50%), var(--slate-900); }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent); }
+    .hero-content { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 80px 24px; text-align: center; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); color: var(--gold-400); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 18px; border-radius: 100px; margin-bottom: 32px; animation: fadeInUp 0.6s ease both; }
+    .hero-title { font-size: clamp(38px, 6.5vw, 72px); font-weight: 900; line-height: 1.08; letter-spacing: -0.03em; margin-bottom: 24px; animation: fadeInUp 0.6s 0.1s ease both; }
+    .hero-title .highlight { background: linear-gradient(135deg, var(--gold-400), var(--gold-600)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-sub { font-size: clamp(17px, 2.5vw, 21px); color: var(--slate-300); max-width: 640px; margin: 0 auto 40px; font-weight: 400; line-height: 1.6; animation: fadeInUp 0.6s 0.2s ease both; }
+    .hero-ctas { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; animation: fadeInUp 0.6s 0.3s ease both; }
+    .hero-stats { display: flex; justify-content: center; gap: 48px; margin-top: 72px; flex-wrap: wrap; animation: fadeInUp 0.6s 0.4s ease both; }
+    .hero-stat { text-align: center; }
+    .hero-stat .number { font-size: 36px; font-weight: 900; letter-spacing: -0.03em; background: linear-gradient(135deg, var(--white), var(--slate-300)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-stat .label { font-size: 13px; color: var(--slate-400); font-weight: 500; margin-top: 4px; }
+    .stars-row { display: flex; justify-content: center; gap: 4px; margin-bottom: 24px; animation: fadeInUp 0.5s 0s ease both; }
+    .stars-row span { font-size: 28px; animation: starPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+    .stars-row span:nth-child(1) { animation-delay: 0.1s; }
+    .stars-row span:nth-child(2) { animation-delay: 0.2s; }
+    .stars-row span:nth-child(3) { animation-delay: 0.3s; }
+    .stars-row span:nth-child(4) { animation-delay: 0.4s; }
+    .stars-row span:nth-child(5) { animation-delay: 0.5s; }
+
+    /* PROBLEMA */
+    #problema { background: var(--slate-800); padding: 96px 0; }
+    .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 56px; }
+    .problem-card { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius); padding: 28px; transition: border-color 0.2s ease, transform 0.2s ease; }
+    .problem-card:hover { border-color: rgba(239, 68, 68, 0.3); transform: translateY(-4px); }
+    .problem-icon { font-size: 36px; margin-bottom: 16px; }
+    .problem-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .problem-card p { font-size: 15px; color: var(--slate-400); line-height: 1.6; }
+
+    /* COMO FUNCIONA */
+    #como-funciona { background: var(--slate-900); padding: 96px 0; }
+    .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px; margin-top: 64px; }
+    .step-card { text-align: center; padding: 40px 28px; border-radius: var(--radius); background: rgba(37, 99, 235, 0.05); border: 1px solid rgba(37, 99, 235, 0.15); transition: all 0.3s ease; }
+    .step-card:hover { background: rgba(37, 99, 235, 0.1); border-color: rgba(37, 99, 235, 0.4); transform: translateY(-6px); }
+    .step-number { width: 52px; height: 52px; background: linear-gradient(135deg, var(--blue-500), var(--blue-700)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 900; margin: 0 auto 20px; box-shadow: 0 0 0 8px rgba(37, 99, 235, 0.12); }
+    .step-icon { font-size: 40px; margin-bottom: 16px; }
+    .step-card h3 { font-size: 19px; font-weight: 700; margin-bottom: 12px; }
+    .step-card p { font-size: 15px; color: var(--slate-400); line-height: 1.6; }
+
+    /* BENEFÍCIOS */
+    #beneficios { background: var(--slate-800); padding: 96px 0; }
+    .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 64px; }
+    .benefit-card { background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius); padding: 32px; transition: all 0.3s ease; display: flex; gap: 20px; align-items: flex-start; }
+    .benefit-card:hover { border-color: rgba(251, 191, 36, 0.25); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
+    .benefit-icon-wrap { width: 48px; height: 48px; min-width: 48px; border-radius: 12px; background: rgba(251, 191, 36, 0.12); border: 1px solid rgba(251, 191, 36, 0.2); display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .benefit-text h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+    .benefit-text p { font-size: 14px; color: var(--slate-400); line-height: 1.6; }
+
+    /* DEPOIMENTOS */
+    #depoimentos { background: var(--slate-900); padding: 96px 0; }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 64px; }
+    .testimonial-card { background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius); padding: 32px; transition: all 0.3s ease; }
+    .testimonial-card:hover { border-color: rgba(37, 99, 235, 0.3); transform: translateY(-4px); }
+    .testimonial-stars { display: flex; gap: 3px; font-size: 18px; margin-bottom: 16px; }
+    .testimonial-text { font-size: 15px; color: var(--slate-300); line-height: 1.7; font-style: italic; margin-bottom: 24px; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .author-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--blue-500), var(--blue-700)); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; }
+    .author-info .name { font-size: 15px; font-weight: 700; }
+    .author-info .role { font-size: 13px; color: var(--slate-400); }
+
+    /* PRICING */
+    #preco { background: var(--slate-800); padding: 96px 0; }
+    .pricing-card { max-width: 520px; margin: 64px auto 0; background: rgba(15, 23, 42, 0.8); border: 2px solid rgba(37, 99, 235, 0.4); border-radius: 24px; padding: 56px 48px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 0 80px rgba(37, 99, 235, 0.15); }
+    .pricing-card::before { content: ''; position: absolute; top: -1px; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--blue-500), var(--gold-400), var(--blue-500)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+    .popular-badge { position: absolute; top: 24px; right: 24px; background: linear-gradient(135deg, var(--gold-500), var(--gold-400)); color: var(--slate-900); font-size: 12px; font-weight: 800; padding: 6px 14px; border-radius: 100px; letter-spacing: 0.05em; text-transform: uppercase; }
+    .pricing-plan-name { font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #60a5fa; margin-bottom: 12px; }
+    .pricing-price { margin: 24px 0; }
+    .price-old { font-size: 18px; color: var(--slate-500); text-decoration: line-through; margin-bottom: 4px; }
+    .price-main { display: flex; align-items: flex-start; justify-content: center; gap: 6px; }
+    .price-currency { font-size: 24px; font-weight: 700; padding-top: 12px; color: var(--slate-300); }
+    .price-value { font-size: 72px; font-weight: 900; letter-spacing: -0.04em; line-height: 1; background: linear-gradient(135deg, var(--white), var(--slate-200)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .price-period { font-size: 18px; color: var(--slate-400); align-self: flex-end; padding-bottom: 12px; }
+    .pricing-features { list-style: none; margin: 32px 0 40px; display: flex; flex-direction: column; gap: 14px; text-align: left; }
+    .pricing-features li { display: flex; align-items: center; gap: 12px; font-size: 15px; color: var(--slate-300); }
+    .pricing-features .check { width: 22px; height: 22px; min-width: 22px; background: rgba(37, 99, 235, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+    .pricing-guarantee { margin-top: 28px; font-size: 13px; color: var(--slate-500); display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+    /* FAQ */
+    #faq { background: var(--slate-900); padding: 96px 0; }
+    .faq-list { max-width: 720px; margin: 56px auto 0; display: flex; flex-direction: column; gap: 12px; }
+    .faq-item { border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius); overflow: hidden; transition: border-color 0.2s ease; }
+    .faq-item.open { border-color: rgba(37, 99, 235, 0.3); }
+    .faq-question { width: 100%; background: rgba(30, 41, 59, 0.6); border: none; cursor: pointer; padding: 22px 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; text-align: left; color: var(--white); font-size: 16px; font-weight: 600; font-family: 'Inter', sans-serif; transition: background 0.2s ease; }
+    .faq-question:hover { background: rgba(37, 99, 235, 0.1); }
+    .faq-chevron { font-size: 20px; transition: transform 0.3s ease; min-width: 24px; text-align: center; color: var(--slate-400); }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); color: #60a5fa; }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq-item.open .faq-answer { max-height: 300px; }
+    .faq-answer-inner { padding: 0 28px 24px; font-size: 15px; color: var(--slate-400); line-height: 1.7; background: rgba(15, 23, 42, 0.5); }
+
+    /* CTA FINAL */
+    #cta-final { padding: 96px 0; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37, 99, 235, 0.3) 0%, transparent 60%), var(--slate-900); text-align: center; }
+    .cta-box { max-width: 680px; margin: 0 auto; }
+
+    /* FOOTER */
+    footer { background: var(--slate-900); border-top: 1px solid rgba(255,255,255,0.06); padding: 40px 0; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .footer-logo { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 800; color: var(--white); text-decoration: none; }
+    .footer-text { font-size: 13px; color: var(--slate-500); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 13px; color: var(--slate-500); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--slate-300); }
+
+    /* ANIMATIONS */
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes starPop { from { opacity: 0; transform: scale(0) rotate(-20deg); } to { opacity: 1; transform: scale(1) rotate(0deg); } }
+    @keyframes shimmer { 0% { background-position: 0% 0; } 100% { background-position: 200% 0; } }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .btn-primary.pulse-ring { animation: pulseRing 2s infinite; }
+    @keyframes pulseRing { 0% { box-shadow: 0 4px 24px rgba(245,158,11,0.4), 0 0 0 0 rgba(245,158,11,0.35); } 70% { box-shadow: 0 4px 24px rgba(245,158,11,0.4), 0 0 0 14px rgba(245,158,11,0); } 100% { box-shadow: 0 4px 24px rgba(245,158,11,0.4), 0 0 0 0 rgba(245,158,11,0); } }
+
+    @media (max-width: 768px) {
+      .section { padding: 64px 0; }
+      .hero-stats { gap: 32px; }
+      .pricing-card { padding: 40px 28px; }
+      .price-value { font-size: 56px; }
+      .nav-links { display: none; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">
+        <div class="logo-icon">🛡️</div>
+        Guardião 5⭐
+      </a>
+      <ul class="nav-links">
+        <li><a href="#como-funciona">Como Funciona</a></li>
+        <li><a href="#beneficios">Benefícios</a></li>
+        <li><a href="#depoimentos">Depoimentos</a></li>
+        <li><a href="#preco">Preço</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="https://pay.kiwify.com.br/db3uD3v" class="nav-cta" target="_blank">Começar Agora →</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="stars-row">
+        <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+      </div>
+      <div class="hero-badge">🛡️ &nbsp;Proteção de Reputação para Negócios Locais</div>
+      <h1 class="hero-title">
+        Nunca Mais Seja Surpreendido<br>
+        por uma <span class="highlight">Avaliação Negativa</span><br>
+        no Google
+      </h1>
+      <p class="hero-sub">
+        O Guardião 5 Estrelas filtra inteligentemente as avaliações dos seus clientes: quem está satisfeito vai direto ao Google, quem tem reclamação fala <strong>primeiro</strong> com você — antes de publicar qualquer coisa.
+      </p>
+      <div class="hero-ctas">
+        <a href="https://pay.kiwify.com.br/db3uD3v" class="btn-primary pulse-ring" target="_blank">
+          🚀 Quero Proteger Minha Reputação
+        </a>
+        <a href="#como-funciona" class="btn-outline">
+          Ver como funciona ↓
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="number">4.9★</div>
+          <div class="label">Avaliação média dos clientes</div>
+        </div>
+        <div class="hero-stat">
+          <div class="number">+300%</div>
+          <div class="label">Mais avaliações no Google</div>
+        </div>
+        <div class="hero-stat">
+          <div class="number">100%</div>
+          <div class="label">Críticas capturadas antes de viralizar</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEMA -->
+  <section id="problema">
+    <div class="container">
+      <div class="text-center reveal">
+        <div class="tag">😰 O Problema Real</div>
+        <h2 class="section-title">Uma avaliação ruim pode custar<br><span class="text-gold">meses de reputação</span></h2>
+        <p class="section-sub mx-auto">No mundo digital, o Google Meu Negócio é sua vitrine principal. Um único comentário negativo público pode afastar dezenas de novos clientes.</p>
+      </div>
+      <div class="problem-grid">
+        <div class="problem-card reveal">
+          <div class="problem-icon">😱</div>
+          <h3>Avaliações negativas públicas</h3>
+          <p>Clientes insatisfeitos vão direto ao Google e publicam críticas que ficam visíveis para todos que pesquisam seu negócio.</p>
+        </div>
+        <div class="problem-card reveal">
+          <div class="problem-icon">📉</div>
+          <h3>Nota baixa prejudica sua busca</h3>
+          <p>O algoritmo do Google penaliza negócios com avaliações ruins, fazendo você aparecer abaixo dos concorrentes nas pesquisas locais.</p>
+        </div>
+        <div class="problem-card reveal">
+          <div class="problem-icon">🚫</div>
+          <h3>Sem chance de se defender</h3>
+          <p>Você fica sabendo do problema depois — quando a avaliação já está pública e o dano à sua imagem já foi feito.</p>
+        </div>
+        <div class="problem-card reveal">
+          <div class="problem-icon">😶</div>
+          <h3>Clientes felizes ficam em silêncio</h3>
+          <p>Quem está satisfeito raramente deixa avaliação. O resultado: sua nota fica dominada pelos poucos clientes insatisfeitos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section id="como-funciona">
+    <div class="container">
+      <div class="text-center reveal">
+        <div class="tag">⚙️ A Solução</div>
+        <h2 class="section-title">Como o <span class="text-blue">Guardião 5 Estrelas</span><br>funciona na prática</h2>
+        <p class="section-sub mx-auto">Um sistema simples de 3 etapas que age como um filtro inteligente entre o seu cliente e o Google.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card reveal">
+          <div class="step-icon">📱</div>
+          <div class="step-number">1</div>
+          <h3>Cliente escaneia o QR Code</h3>
+          <p>Você posiciona o QR Code personalizado no balcão, cardápio ou mesa. O cliente escaneia na saída e avalia o atendimento.</p>
+        </div>
+        <div class="step-card reveal">
+          <div class="step-icon">🧠</div>
+          <div class="step-number">2</div>
+          <h3>Filtro inteligente entra em ação</h3>
+          <p><strong style="color:var(--gold-400)">4 ou 5 estrelas?</strong> Vai direto para o Google. <strong style="color:#f87171">1, 2 ou 3 estrelas?</strong> A crítica é capturada e você recebe aviso imediato no WhatsApp.</p>
+        </div>
+        <div class="step-card reveal">
+          <div class="step-icon">📈</div>
+          <div class="step-number">3</div>
+          <h3>Reputação só cresce</h3>
+          <p>Sua nota no Google sobe com avaliações positivas contínuas, enquanto problemas são resolvidos internamente antes de virarem crise pública.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFÍCIOS -->
+  <section id="beneficios">
+    <div class="container">
+      <div class="text-center reveal">
+        <div class="tag">✅ Benefícios</div>
+        <h2 class="section-title">Tudo que você precisa<br>em <span class="text-gold">uma única solução</span></h2>
+      </div>
+      <div class="benefits-grid">
+        <div class="benefit-card reveal">
+          <div class="benefit-icon-wrap">🛡️</div>
+          <div class="benefit-text">
+            <h3>Proteção Total da Reputação</h3>
+            <p>Filtre avaliações negativas antes que cheguem ao Google. Você resolve o problema, o cliente fica satisfeito e ninguém sabe.</p>
+          </div>
+        </div>
+        <div class="benefit-card reveal">
+          <div class="benefit-icon-wrap">⚡</div>
+          <div class="benefit-text">
+            <h3>Alerta em Tempo Real</h3>
+            <p>Receba notificações instantâneas no WhatsApp sempre que um cliente deixar uma avaliação baixa, com o feedback completo.</p>
+          </div>
+        </div>
+        <div class="benefit-card reveal">
+          <div class="benefit-icon-wrap">📈</div>
+          <div class="benefit-text">
+            <h3>Mais Avaliações Positivas</h3>
+            <p>Clientes satisfeitos são direcionados com um clique para o Google. Quantidade e qualidade das avaliações crescem juntas.</p>
+          </div>
+        </div>
+        <div class="benefit-card reveal">
+          <div class="benefit-icon-wrap">📱</div>
+          <div class="benefit-text">
+            <h3>QR Code Personalizado</h3>
+            <p>Receba seu QR Code exclusivo pronto para imprimir e posicionar no seu estabelecimento. Nenhuma configuração técnica.</p>
+          </div>
+        </div>
+        <div class="benefit-card reveal">
+          <div class="benefit-icon-wrap">🎯</div>
+          <div class="benefit-text">
+            <h3>100% Automático</h3>
+            <p>O sistema trabalha por você 24 horas por dia, 7 dias por semana. Sem precisar fazer nada além de posicionar o QR Code.</p>
+          </div>
+        </div>
+        <div class="benefit-card reveal">
+          <div class="benefit-icon-wrap">💰</div>
+          <div class="benefit-text">
+            <h3>Investimento Mínimo</h3>
+            <p>Por menos de R$1/dia, você protege a reputação que levou anos para construir. ROI imediato no primeiro mês de uso.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPOIMENTOS -->
+  <section id="depoimentos">
+    <div class="container">
+      <div class="text-center reveal">
+        <div class="tag">💬 Depoimentos</div>
+        <h2 class="section-title">O que nossos clientes<br><span class="text-gold">estão dizendo</span></h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal">
+          <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+          <p class="testimonial-text">"Em 3 semanas já tivemos 27 novas avaliações 5 estrelas no Google. Antes ficávamos meses sem nenhuma. O Guardião simplesmente funciona."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">R</div>
+            <div class="author-info">
+              <div class="name">Ricardo Almeida</div>
+              <div class="role">Dono — Barbearia Premium RJ</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal">
+          <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+          <p class="testimonial-text">"Um cliente insatisfeito tentou fazer reclamação e eu recebi o alerta no WhatsApp imediatamente. Liguei para ele, resolvi o problema e ele até mudou de ideia!"</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">A</div>
+            <div class="author-info">
+              <div class="name">Ana Paula Costa</div>
+              <div class="role">Proprietária — Studio de Estética SP</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal">
+          <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+          <p class="testimonial-text">"Nossa nota no Google saiu de 3.8 para 4.7 em dois meses. Isso mudou completamente o volume de clientes novos que nos encontram nas pesquisas."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">M</div>
+            <div class="author-info">
+              <div class="name">Marcos Ferreira</div>
+              <div class="role">Gerente — Restaurante Sabor e Arte MG</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="preco">
+    <div class="container">
+      <div class="text-center reveal">
+        <div class="tag">💳 Investimento</div>
+        <h2 class="section-title">Simples, transparente<br>e <span class="text-gold">acessível</span></h2>
+        <p class="section-sub mx-auto">Um único plano com tudo incluído. Sem taxas escondidas, sem contrato de fidelidade.</p>
+      </div>
+      <div class="pricing-card reveal">
+        <div class="popular-badge">🔥 Mais Popular</div>
+        <div class="pricing-plan-name">Plano Guardião</div>
+        <h3 style="font-size:22px; font-weight:700; margin-bottom:8px;">Tudo que você precisa para proteger sua reputação</h3>
+        <div class="pricing-price">
+          <div class="price-old">De R$ 59,90/mês</div>
+          <div class="price-main">
+            <span class="price-currency">R$</span>
+            <span class="price-value">29</span>
+            <span class="price-period">,99/mês</span>
+          </div>
+          <div style="font-size:13px; color:var(--slate-500); margin-top:6px;">Cancele quando quiser • Sem fidelidade</div>
+        </div>
+        <ul class="pricing-features">
+          <li><span class="check">✓</span> QR Code personalizado para o seu negócio</li>
+          <li><span class="check">✓</span> Filtro inteligente de avaliações (1-3★ vs 4-5★)</li>
+          <li><span class="check">✓</span> Alertas instantâneos no WhatsApp</li>
+          <li><span class="check">✓</span> Redirecionamento automático ao Google</li>
+          <li><span class="check">✓</span> Formulário de feedback interno</li>
+          <li><span class="check">✓</span> Ativação em menos de 5 minutos</li>
+          <li><span class="check">✓</span> Suporte via WhatsApp incluído</li>
+        </ul>
+        <a href="https://pay.kiwify.com.br/db3uD3v" class="btn-primary pulse-ring" target="_blank" style="width:100%; font-size:18px; padding:20px;">
+          🚀 Quero Começar Agora — R$29,99/mês
+        </a>
+        <div class="pricing-guarantee">
+          🔒 &nbsp;Pagamento 100% seguro via Kiwify
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <div class="text-center reveal">
+        <div class="tag">❓ Dúvidas Frequentes</div>
+        <h2 class="section-title">Perguntas <span class="text-blue">Frequentes</span></h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item reveal">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Como recebo meu QR Code após a compra?</span>
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Após o pagamento, você é redirecionado automaticamente para uma página de ativação. Lá você informa o nome do seu negócio e o link do Google Meu Negócio. Em seguida, seu QR Code é gerado e enviado por e-mail em menos de 5 minutos.</div>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Preciso ter conhecimento técnico para usar?</span>
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Não. O processo é 100% guiado e leva menos de 5 minutos. Você só precisa informar o nome do negócio e o link do seu Google Meu Negócio. Nós cuidamos de tudo o mais.</div>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Em qual número do WhatsApp os alertas chegam?</span>
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Os alertas são enviados para o número de WhatsApp que você cadastrar durante a ativação. É possível alterar o número de destino entrando em contato com nosso suporte.</div>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Posso cancelar a qualquer momento?</span>
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Sim. Não existe fidelidade ou multa. Você pode cancelar sua assinatura a qualquer momento diretamente pelo painel da Kiwify ou entrando em contato com nosso suporte.</div>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>O sistema funciona para qualquer tipo de negócio?</span>
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Sim! Restaurantes, barbearias, clínicas, salões de beleza, lojas, academias, hotéis — qualquer negócio que receba clientes presencialmente e queira proteger sua reputação no Google.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section id="cta-final">
+    <div class="container">
+      <div class="cta-box reveal">
+        <div class="stars-row" style="margin-bottom:16px;">
+          <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+        </div>
+        <h2 class="section-title">Pronto para proteger sua<br><span style="background:linear-gradient(135deg,#fbbf24,#d97706);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">reputação no Google?</span></h2>
+        <p class="section-sub mx-auto" style="margin-top:16px; margin-bottom:40px;">Comece hoje por R$29,99/mês e tenha seu QR Code ativo em menos de 5 minutos. Sem contrato, sem complicação.</p>
+        <a href="https://pay.kiwify.com.br/db3uD3v" class="btn-primary pulse-ring" target="_blank" style="font-size:19px; padding:22px 48px;">
+          🛡️ Ativar Meu Guardião Agora
+        </a>
+        <p style="margin-top:20px; font-size:13px; color:var(--slate-500);">🔒 Pagamento seguro · Cancele quando quiser · Suporte via WhatsApp</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <a href="#hero" class="footer-logo">🛡️ Guardião 5 Estrelas</a>
+        <span class="footer-text">© 2026 Guardião 5 Estrelas. Todos os direitos reservados.</span>
+        <div class="footer-links">
+          <a href="https://pay.kiwify.com.br/db3uD3v" target="_blank">Assinar</a>
+          <a href="#faq">Suporte</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Scroll Reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const delay = entry.target.dataset.delay || 0;
+          setTimeout(() => entry.target.classList.add('visible'), Number(delay));
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach((el, i) => {
+      el.dataset.delay = (i % 4) * 80;
+      observer.observe(el);
+    });
+
+    // FAQ Toggle
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+  </script>
+</body>
+</html>

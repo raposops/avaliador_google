@@ -230,9 +230,9 @@
 
           </div>
 
-          <!-- Campo 3: Telefone (Fallback se a Kiwify não enviar) -->
-          <div id="phone-field-container" class="hidden">
-            <label for="fallback_phone" class="block text-xs font-semibold text-slate-800 mb-1.5">
+          <!-- Campo 3: Telefone -->
+          <div id="phone-field-container">
+            <label for="customer_phone_input" class="block text-xs font-semibold text-slate-800 mb-1.5">
               3. Seu WhatsApp (Com DDD) <span class="text-red-500">*</span>
             </label>
             <div class="relative">
@@ -243,8 +243,9 @@
               </div>
               <input 
                 type="tel" 
-                id="fallback_phone" 
-                name="fallback_phone"
+                id="customer_phone_input" 
+                name="customer_phone_input"
+                required
                 placeholder="Ex: 51999998888"
                 class="w-full pl-10 pr-3.5 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200"
               >
@@ -348,12 +349,10 @@
     const customerPhone = urlParams.get('phone') || urlParams.get('customer_phone') || urlParams.get('mobile') || '';
     const customerEmail = urlParams.get('email') || urlParams.get('customer_email') || '';
 
-    // Mostra o campo de telefone se a Kiwify não enviar na URL
-    const phoneContainer = document.getElementById('phone-field-container');
-    const fallbackPhoneInput = document.getElementById('fallback_phone');
-    if (!customerPhone && phoneContainer) {
-      phoneContainer.classList.remove('hidden');
-      fallbackPhoneInput.required = true;
+    // Preenche o campo de telefone se vier na URL
+    const phoneInput = document.getElementById('customer_phone_input');
+    if (customerPhone && phoneInput) {
+      phoneInput.value = customerPhone;
     }
 
     // Exibe saudação personalizada se houver nome vindo da URL
@@ -394,7 +393,7 @@
 
       const companyName = document.getElementById('company_name').value;
       const googleUrl = document.getElementById('google_review_url').value;
-      const finalPhone = customerPhone || document.getElementById('fallback_phone').value;
+      const finalPhone = document.getElementById('customer_phone_input').value;
 
       // Adiciona 55 automaticamente se o usuário não digitar
       let cleanFinalPhone = finalPhone.replace(/\D/g, '');
